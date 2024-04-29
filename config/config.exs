@@ -27,6 +27,11 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
+# Guardian configuration.
+config :dae_ecommerce_be, DaeEcommerceBeWeb.Auth.Guardian,
+  issuer: "dae_ecommerce_be",
+  secret_key: "WMXHp+FCDYSA1IMBuh0sP4VMv1COW70/aS6gg1kctFTJlkaPILSWXqTSOZRzovIo"
+
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
