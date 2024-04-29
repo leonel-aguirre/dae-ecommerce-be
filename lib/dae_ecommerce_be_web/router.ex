@@ -7,5 +7,7 @@ defmodule DaeEcommerceBeWeb.Router do
 
   scope "/api", DaeEcommerceBeWeb do
     pipe_through :api
+
+    get "/", DefaultController, :index
   end
 end
