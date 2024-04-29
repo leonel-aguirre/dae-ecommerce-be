@@ -24,5 +24,14 @@ defmodule DaeEcommerceBe.Accounts.Account do
     )
     |> validate_length(:email, max: 160)
     |> unique_constraint(:email)
+    |> put_password_hash()
   end
+
+  defp put_password_hash(
+         %Ecto.Changeset{valid?: true, changes: %{password: password}} = changeset
+       ) do
+    change(changeset, password: Bcrypt.hash_pwd_salt(password))
+  end
+
+  defp put_password_hash(changeset), do: changeset
 end

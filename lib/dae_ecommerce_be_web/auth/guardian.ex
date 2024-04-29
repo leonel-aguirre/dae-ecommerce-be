@@ -22,4 +22,26 @@ defmodule DaeEcommerceBeWeb.Auth.Guardian do
   def resource_from_claims(_claims) do
     {:error, :no_id_provided}
   end
+
+  def authenticate(email, password) do
+    case Accounts.get_account_by_email(email) do
+      nil ->
+        {:error, :unauthorized}
+
+      account ->
+        case validate_password(password, account.password) do
+          true -> create_token(account)
+          false -> {:error, :unauthorized}
+        end
+    end
+  end
+
+  defp validate_password(password, hashed_password) do
+    Bcrypt.verify_pass(password, hashed_password)
+  end
+
+  defp create_token(account) do
+    {:ok, token, _claims} = encode_and_sign(account)
+    {:ok, account, token}
+  end
 end
