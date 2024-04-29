@@ -5,11 +5,13 @@ defmodule DaeEcommerceBe.Repo.Migrations.CreateUsers do
     create table(:users, primary_key: false) do
       add :id, :binary_id, primary_key: true
       add :full_name, :string
-      add :account_id, references(:accounts, on_delete: :nothing, type: :binary_id)
+      # delete_all ensures that the referenced entries are deleted as well.
+      add :account_id, references(:accounts, on_delete: :delete_all, type: :binary_id)
 
       timestamps(type: :utc_datetime)
     end
 
+    # Columns on which a query can be performed.
     create index(:users, [:account_id])
   end
 end
