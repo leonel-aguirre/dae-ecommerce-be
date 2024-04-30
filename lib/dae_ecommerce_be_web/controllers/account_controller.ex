@@ -1,7 +1,7 @@
 defmodule DaeEcommerceBeWeb.AccountController do
   use DaeEcommerceBeWeb, :controller
 
-  alias DaeEcommerceBeWeb.Auth.Guardian
+  alias DaeEcommerceBeWeb.{Auth.Guardian, Auth.ErrorResponse}
   alias DaeEcommerceBe.{Accounts, Users, Accounts.Account, Users.User}
 
   action_fallback DaeEcommerceBeWeb.FallbackController
@@ -18,6 +18,18 @@ defmodule DaeEcommerceBeWeb.AccountController do
       conn
       |> put_status(:created)
       |> render(:account_token, %{account: account, token: token})
+    end
+  end
+
+  def sign_in(conn, %{"email" => email, "password" => password}) do
+    case Guardian.authenticate(email, password) do
+      {:ok, account, token} ->
+        conn
+        |> put_status(:ok)
+        |> render(:account_token, %{account: account, token: token})
+
+      {:error, :unauthorized} ->
+        raise ErrorResponse.Unauthorized, message: "Email or Password incorrect."
     end
   end
 
