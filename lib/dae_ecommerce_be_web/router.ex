@@ -2,13 +2,13 @@ defmodule DaeEcommerceBeWeb.Router do
   use DaeEcommerceBeWeb, :router
   use Plug.ErrorHandler
 
-  defp handle_errors(conn, %{reason: %Phoenix.Router.NoRouteError{message: message}}) do
+  def handle_errors(conn, %{reason: %Phoenix.Router.NoRouteError{message: message}}) do
     conn
     |> json(%{errors: message})
     |> halt()
   end
 
-  defp handle_errors(conn, %{reason: %{message: message}}) do
+  def handle_errors(conn, %{reason: %{message: message}}) do
     conn
     |> json(%{errors: message})
     |> halt()
@@ -40,5 +40,6 @@ defmodule DaeEcommerceBeWeb.Router do
     get "/accounts/sign_out", AccountController, :sign_out
     get "/accounts/refresh_session", AccountController, :refresh_session
     post "/accounts/update", AccountController, :update
+    put "/users/update", UserController, :update
   end
 end
