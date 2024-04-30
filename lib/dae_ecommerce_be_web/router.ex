@@ -16,11 +16,13 @@ defmodule DaeEcommerceBeWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
   end
 
   # Ensures authentication before triggering the service.
   pipeline :auth do
     plug DaeEcommerceBeWeb.Auth.Pipeline
+    plug DaeEcommerceBeWeb.Auth.SetAccount
   end
 
   scope "/api", DaeEcommerceBeWeb do
