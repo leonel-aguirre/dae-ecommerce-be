@@ -17,14 +17,8 @@ config :dae_ecommerce_be, DaeEcommerceBe.Repo,
 # you can enable the server option below.
 config :dae_ecommerce_be, DaeEcommerceBeWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
-  secret_key_base: "SQSnomrvwQskl9b6JwkV5RCpWtcKCulyyJzaTR3rynsDUOrm3wG/ZYAY1Rk5L3A7",
+  secret_key_base: "cB7unczdnUkSD/W/wp7ijBeYxxuiYwvfn3h8gpcBFvrcKq1WZJW/mFpsOOsaYmO/",
   server: false
-
-# In test we don't send emails.
-config :dae_ecommerce_be, DaeEcommerceBe.Mailer, adapter: Swoosh.Adapters.Test
-
-# Disable swoosh api client as it is only required for production adapters.
-config :swoosh, :api_client, false
 
 # Print only warnings and errors during test
 config :logger, level: :warning

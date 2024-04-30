@@ -12,8 +12,6 @@ defmodule DaeEcommerceBe.Application do
       DaeEcommerceBe.Repo,
       {DNSCluster, query: Application.get_env(:dae_ecommerce_be, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: DaeEcommerceBe.PubSub},
-      # Start the Finch HTTP client for sending emails
-      {Finch, name: DaeEcommerceBe.Finch},
       # Start a worker by calling: DaeEcommerceBe.Worker.start_link(arg)
       # {DaeEcommerceBe.Worker, arg},
       # Start to serve requests, typically the last entry
