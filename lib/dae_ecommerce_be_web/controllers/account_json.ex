@@ -1,5 +1,6 @@
 defmodule DaeEcommerceBeWeb.AccountJSON do
   alias DaeEcommerceBe.Accounts.Account
+  alias DaeEcommerceBeWeb.UserJSON
 
   @doc """
   Renders a list of accounts.
@@ -20,6 +21,14 @@ defmodule DaeEcommerceBeWeb.AccountJSON do
       id: account.id,
       email: account.email,
       password: account.password
+    }
+  end
+
+  def full_account(%{account: account}) do
+    %{
+      id: account.id,
+      email: account.email,
+      user: UserJSON.data(account.user)
     }
   end
 
