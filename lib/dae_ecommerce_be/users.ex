@@ -49,8 +49,10 @@ defmodule DaeEcommerceBe.Users do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_user(attrs \\ %{}) do
-    %User{}
+  def create_user(account, attrs \\ %{}) do
+    account
+    # Creates the association between the account id and the user.
+    |> Ecto.build_assoc(:user)
     |> User.changeset(attrs)
     |> Repo.insert()
   end

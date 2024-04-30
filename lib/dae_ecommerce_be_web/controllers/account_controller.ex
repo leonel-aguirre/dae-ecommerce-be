@@ -1,8 +1,8 @@
 defmodule DaeEcommerceBeWeb.AccountController do
   use DaeEcommerceBeWeb, :controller
 
-  alias DaeEcommerceBe.Accounts
-  alias DaeEcommerceBe.Accounts.Account
+  alias DaeEcommerceBeWeb.Auth.Guardian
+  alias DaeEcommerceBe.{Accounts, Users, Accounts.Account, Users.User}
 
   action_fallback DaeEcommerceBeWeb.FallbackController
 
@@ -12,10 +12,12 @@ defmodule DaeEcommerceBeWeb.AccountController do
   end
 
   def create(conn, %{"account" => account_params}) do
-    with {:ok, %Account{} = account} <- Accounts.create_account(account_params) do
+    with {:ok, %Account{} = account} <- Accounts.create_account(account_params),
+         {:ok, token, _claims} <- Guardian.encode_and_sign(account),
+         {:ok, %User{} = _user} <- Users.create_user(account, account_params) do
       conn
       |> put_status(:created)
-      |> render(:show, account: account)
+      |> render(:account_token, %{account: account, token: token})
     end
   end
 
