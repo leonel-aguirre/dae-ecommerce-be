@@ -37,5 +37,6 @@ defmodule DaeEcommerceBeWeb.Router do
   scope "/api", DaeEcommerceBeWeb do
     pipe_through [:api, :auth]
     get "/accounts/by_id/:id", AccountController, :show
+    post "/accounts/update", AccountController, :update
   end
 end

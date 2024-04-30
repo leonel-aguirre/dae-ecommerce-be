@@ -4,11 +4,25 @@ defmodule DaeEcommerceBeWeb.AccountController do
   alias DaeEcommerceBeWeb.{Auth.Guardian, Auth.ErrorResponse}
   alias DaeEcommerceBe.{Accounts, Users, Accounts.Account, Users.User}
 
+  plug :is_authorized_account when action in [:update, :delete]
+
   action_fallback DaeEcommerceBeWeb.FallbackController
 
   def index(conn, _params) do
     accounts = Accounts.list_accounts()
     render(conn, :index, accounts: accounts)
+  end
+
+  defp is_authorized_account(conn, _options) do
+    %{params: %{"account" => params}} = conn
+
+    account = Accounts.get_account!(params["id"])
+
+    if conn.assigns.account.id == account.id do
+      conn
+    else
+      raise ErrorResponse.Forbidden
+    end
   end
 
   def create(conn, %{"account" => account_params}) do
@@ -35,11 +49,12 @@ defmodule DaeEcommerceBeWeb.AccountController do
   end
 
   def show(conn, %{"id" => id}) do
-    render(conn, :show, account: conn.assigns.account)
+    account = Accounts.get_account!(id)
+    render(conn, :show, account: account)
   end
 
-  def update(conn, %{"id" => id, "account" => account_params}) do
-    account = Accounts.get_account!(id)
+  def update(conn, %{"account" => account_params}) do
+    account = Accounts.get_account!(account_params["id"])
 
     with {:ok, %Account{} = account} <- Accounts.update_account(account, account_params) do
       render(conn, :show, account: account)
