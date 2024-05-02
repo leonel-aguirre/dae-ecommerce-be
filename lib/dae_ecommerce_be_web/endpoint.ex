@@ -43,5 +43,12 @@ defmodule DaeEcommerceBeWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
+
+  plug Corsica,
+    origins: "*",
+    allow_headers: :all,
+    allow_methods: :all,
+    allow_credentials: true
+
   plug DaeEcommerceBeWeb.Router
 end

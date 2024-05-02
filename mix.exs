@@ -44,7 +44,8 @@ defmodule DaeEcommerceBe.MixProject do
       {:bandit, "~> 1.2"},
       {:guardian, "~> 2.3"},
       {:guardian_db, "~> 2.0"},
-      {:bcrypt_elixir, "~> 3.0"}
+      {:bcrypt_elixir, "~> 3.0"},
+      {:corsica, "~> 2.1"}
     ]
   end
 
