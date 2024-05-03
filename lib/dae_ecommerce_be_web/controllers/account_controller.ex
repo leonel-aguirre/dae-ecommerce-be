@@ -31,6 +31,7 @@ defmodule DaeEcommerceBeWeb.AccountController do
       {:ok, account, token} ->
         conn
         |> Plug.Conn.put_session(:account_id, account.id)
+        |> put_resp_cookie("auth_token", token, http_only: true)
         |> put_status(:ok)
         |> render(:account_token, %{account: account, token: token})
 
@@ -58,6 +59,7 @@ defmodule DaeEcommerceBeWeb.AccountController do
     conn
     |> Plug.Conn.clear_session()
     |> put_status(:ok)
+    |> put_resp_cookie("auth_token", "", http_only: true, max_age: 0)
     |> render(:account_token, %{account: account, token: nil})
   end
 

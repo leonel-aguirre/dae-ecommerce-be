@@ -8,6 +8,8 @@ defmodule DaeEcommerceBeWeb.Auth.Pipeline do
   plug Guardian.Plug.VerifySession
   # Looks for token in header.
   plug Guardian.Plug.VerifyHeader
+  # Looks for token in cookies header.
+  plug DaeEcommerceBeWeb.Auth.CookieTokenValidator
   # Ensure a token is found.
   plug Guardian.Plug.EnsureAuthenticated
   # Attempt to load resource.
