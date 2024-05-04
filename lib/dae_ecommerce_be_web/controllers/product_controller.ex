@@ -36,10 +36,15 @@ defmodule DaeEcommerceBeWeb.ProductController do
   end
 
   def update(conn, %{"id" => id, "product" => product_params}) do
+    user_id = conn.assigns.account.user.id
     product = Products.get_product!(id)
 
-    with {:ok, %Product{} = product} <- Products.update_product(product, product_params) do
-      render(conn, :show, product: product)
+    if user_id === product.user_id do
+      with {:ok, %Product{} = product} <- Products.update_product(product, product_params) do
+        render(conn, :show, product: product)
+      end
+    else
+      raise ErrorResponse.Unauthorized, message: "Unable to update this product."
     end
   end
 

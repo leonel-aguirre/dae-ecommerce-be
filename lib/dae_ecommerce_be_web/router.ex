@@ -46,8 +46,7 @@ defmodule DaeEcommerceBeWeb.Router do
     get "/products", ProductController, :index
     get "/user/products", ProductController, :index_by_user
     get "/products/:id", ProductController, :show
-    # put "/products/:id", ProductController, :update
-
+    put "/products/:id", ProductController, :update
     delete "/products/:id", ProductController, :delete
   end
 end
