@@ -1,6 +1,7 @@
 defmodule DaeEcommerceBeWeb.ProductController do
   use DaeEcommerceBeWeb, :controller
 
+  alias DaeEcommerceBeWeb.Auth.ErrorResponse
   alias DaeEcommerceBe.Products
   alias DaeEcommerceBe.Products.Product
 
@@ -43,10 +44,20 @@ defmodule DaeEcommerceBeWeb.ProductController do
   end
 
   def delete(conn, %{"id" => id}) do
+    user_id = conn.assigns.account.user.id
     product = Products.get_product!(id)
 
-    with {:ok, %Product{}} <- Products.delete_product(product) do
-      send_resp(conn, :no_content, "")
+    if user_id === product.user_id do
+      with {:ok, %Product{}} <- Products.delete_product(product) do
+        conn
+        |> put_resp_content_type("application/json")
+        |> send_resp(
+          200,
+          Jason.encode!(%{message: "Product with id #{id} deleted successfully."})
+        )
+      end
+    else
+      raise ErrorResponse.Unauthorized, message: "Unable to delete this product."
     end
   end
 end
