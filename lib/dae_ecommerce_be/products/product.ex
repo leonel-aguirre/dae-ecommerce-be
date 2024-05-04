@@ -15,6 +15,9 @@ defmodule DaeEcommerceBe.Products.Product do
     # Establishes a relationship between Product and User.
     belongs_to :user, DaeEcommerceBe.Users.User
 
+    # Establishes a relationship between Product and ProductImage.
+    has_many :product_image, DaeEcommerceBe.ProductImages.ProductImage
+
     timestamps(type: :utc_datetime)
   end
 

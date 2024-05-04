@@ -48,5 +48,7 @@ defmodule DaeEcommerceBeWeb.Router do
     get "/products/:id", ProductController, :show
     put "/products/:id", ProductController, :update
     delete "/products/:id", ProductController, :delete
+
+    post "/test", ProductImageController, :test
   end
 end
