@@ -41,5 +41,8 @@ defmodule DaeEcommerceBeWeb.Router do
     get "/accounts/refresh_session", AccountController, :refresh_session
     post "/accounts/update", AccountController, :update
     put "/users/update", UserController, :update
+
+    post "/products", ProductController, :create
+    get "/products", ProductController, :index
   end
 end
