@@ -17,8 +17,10 @@ defmodule DaeEcommerceBe.Products do
       [%Product{}, ...]
 
   """
-  def list_products do
-    Repo.all(Product)
+  def list_available_products do
+    Product
+    |> where(is_disabled: false)
+    |> Repo.all()
   end
 
   def list_products_by_user(user_id) do

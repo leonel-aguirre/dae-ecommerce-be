@@ -46,5 +46,8 @@ defmodule DaeEcommerceBeWeb.Router do
     get "/products", ProductController, :index
     get "/user/products", ProductController, :index_by_user
     get "/products/:id", ProductController, :show
+
+    # TODO: delete only by owner.
+    # delete "/products/:id", ProductController, :delete
   end
 end

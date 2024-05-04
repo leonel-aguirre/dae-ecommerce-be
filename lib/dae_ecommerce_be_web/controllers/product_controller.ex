@@ -7,7 +7,7 @@ defmodule DaeEcommerceBeWeb.ProductController do
   action_fallback DaeEcommerceBeWeb.FallbackController
 
   def index(conn, _params) do
-    products = Products.list_products()
+    products = Products.list_available_products()
     render(conn, :index, products: products)
   end
 
