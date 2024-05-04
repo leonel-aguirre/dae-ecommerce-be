@@ -11,11 +11,16 @@ defmodule DaeEcommerceBeWeb.ProductController do
     render(conn, :index, products: products)
   end
 
+  def index_by_user(conn, _params) do
+    user_id = conn.assigns.account.user.id
+
+    products = Products.list_products_by_user(user_id)
+
+    render(conn, :index, products: products)
+  end
+
   def create(conn, %{"product" => product_params}) do
     user = conn.assigns.account.user
-
-    conn
-    |> send_resp(200, Jason.encode!(%{success: true}))
 
     with {:ok, %Product{} = product} <- Products.create_product(user, product_params) do
       conn

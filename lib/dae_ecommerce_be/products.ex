@@ -21,6 +21,12 @@ defmodule DaeEcommerceBe.Products do
     Repo.all(Product)
   end
 
+  def list_products_by_user(user_id) do
+    Product
+    |> where(user_id: ^user_id)
+    |> Repo.all()
+  end
+
   @doc """
   Gets a single product.
 

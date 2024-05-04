@@ -44,5 +44,7 @@ defmodule DaeEcommerceBeWeb.Router do
 
     post "/products", ProductController, :create
     get "/products", ProductController, :index
+    get "/user/products", ProductController, :index_by_user
+    get "/products/:id", ProductController, :show
   end
 end
