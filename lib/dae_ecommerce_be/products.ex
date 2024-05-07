@@ -20,12 +20,14 @@ defmodule DaeEcommerceBe.Products do
   def list_available_products do
     Product
     |> where(is_disabled: false)
+    |> preload([:product_images])
     |> Repo.all()
   end
 
   def list_products_by_user(user_id) do
     Product
     |> where(user_id: ^user_id)
+    |> preload([:product_images])
     |> Repo.all()
   end
 
@@ -46,13 +48,10 @@ defmodule DaeEcommerceBe.Products do
   def get_product!(id), do: Repo.get!(Product, id)
 
   def get_product_with_images(id) do
-    result =
-      Product
-      |> where(id: ^id)
-      |> preload([:product_images])
-      |> Repo.one()
-
-    result
+    Product
+    |> where(id: ^id)
+    |> preload([:product_images])
+    |> Repo.one()
   end
 
   @doc """
