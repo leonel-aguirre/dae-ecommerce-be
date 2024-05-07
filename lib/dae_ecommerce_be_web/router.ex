@@ -41,5 +41,17 @@ defmodule DaeEcommerceBeWeb.Router do
     get "/accounts/refresh_session", AccountController, :refresh_session
     post "/accounts/update", AccountController, :update
     put "/users/update", UserController, :update
+
+    post "/products", ProductController, :create
+    get "/products", ProductController, :index
+    get "/user/products", ProductController, :index_by_user
+    get "/products/:id", ProductController, :show_product_with_images
+    put "/products/:id", ProductController, :update
+    delete "/products/:id", ProductController, :delete
+
+    post "/products/upload_image/:product_id", ProductImageController, :upload
+    get "/products/image/:image_id", ProductImageController, :show
+
+    get "/product_tags", TagController, :index
   end
 end

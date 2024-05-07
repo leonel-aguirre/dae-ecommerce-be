@@ -10,6 +10,9 @@ defmodule DaeEcommerceBe.Users.User do
     # Establishes a relationship between User and Account.
     belongs_to :account, DaeEcommerceBe.Accounts.Account
 
+    # Establishes a relationship between Product and User.
+    has_many :products, DaeEcommerceBe.Products.Product
+
     timestamps(type: :utc_datetime)
   end
 
