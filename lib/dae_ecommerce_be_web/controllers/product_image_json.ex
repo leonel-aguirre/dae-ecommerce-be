@@ -21,4 +21,10 @@ defmodule DaeEcommerceBeWeb.ProductImageJSON do
       data: product_image.data
     }
   end
+
+  def data_simple(%ProductImage{} = product_image) do
+    %{
+      id: product_image.id
+    }
+  end
 end

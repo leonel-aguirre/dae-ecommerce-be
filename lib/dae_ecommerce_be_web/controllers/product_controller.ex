@@ -32,9 +32,29 @@ defmodule DaeEcommerceBeWeb.ProductController do
 
   def show(conn, %{"id" => id}) do
     product = Products.get_product!(id)
+
     render(conn, :show, product: product)
   end
 
+  def show_product_with_images(conn, %{"id" => id}) do
+    product = Products.get_product_with_images(id)
+
+    render(conn, :show_with_images, product: product)
+  end
+
+  @spec update(
+          atom()
+          | %{
+              :assigns =>
+                atom()
+                | %{
+                    :account => atom() | %{:user => atom() | map(), optional(any()) => any()},
+                    optional(any()) => any()
+                  },
+              optional(any()) => any()
+            },
+          map()
+        ) :: any()
   def update(conn, %{"id" => id, "product" => product_params}) do
     user_id = conn.assigns.account.user.id
     product = Products.get_product!(id)

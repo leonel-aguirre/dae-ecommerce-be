@@ -1,32 +1,25 @@
 defmodule DaeEcommerceBeWeb.ProductImageController do
   use DaeEcommerceBeWeb, :controller
 
+  alias DaeEcommerceBe.Products
   alias DaeEcommerceBe.ProductImages
   alias DaeEcommerceBe.ProductImages.ProductImage
 
   action_fallback DaeEcommerceBeWeb.FallbackController
 
-  def test(conn, params) do
-    IO.inspect(params)
+  def upload(conn, %{"data" => data, "product_id" => product_id}) do
+    user_id = conn.assigns.account.user.id
+    product = Products.get_product!(product_id)
 
-    binaryFile = File.read!(params["data"].path)
+    if user_id === product.user_id do
+      binaryFile = File.read!(data.path)
 
-    # conn
-    # |> put_status(:created)
-    # |> json(%{message: "success"})
-
-    # ProductImages.create_product_image(params)
-
-    with {:ok, %ProductImage{} = _product_image} <-
-           ProductImages.create_product_image(%{data: binaryFile}) do
-      conn
-      |> put_status(:created)
-      |> json(%{message: "success"})
-
-      # |> render(:show, product_image: product_image)
-      # else
-      #   conn
-      #   |> json(%{message: "error"})
+      with {:ok, %ProductImage{} = _product_image} <-
+             ProductImages.create_product_image(product, %{data: binaryFile}) do
+        conn
+        |> put_status(:created)
+        |> json(%{message: "success"})
+      end
     end
   end
 
@@ -40,14 +33,16 @@ defmodule DaeEcommerceBeWeb.ProductImageController do
            ProductImages.create_product_image(product_image_params) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", ~p"/api/product_images/#{product_image}")
       |> render(:show, product_image: product_image)
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    product_image = ProductImages.get_product_image!(id)
-    render(conn, :show, product_image: product_image)
+  def show(conn, %{"image_id" => image_id}) do
+    product_image = ProductImages.get_product_image!(image_id)
+
+    conn
+    |> put_resp_content_type("image/png")
+    |> send_resp(200, product_image.data)
   end
 
   def update(conn, %{"id" => id, "product_image" => product_image_params}) do

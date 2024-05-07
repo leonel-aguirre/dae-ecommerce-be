@@ -49,10 +49,9 @@ defmodule DaeEcommerceBe.ProductImages do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_product_image(attrs \\ %{}) do
-    IO.inspect(attrs)
-
-    %ProductImage{}
+  def create_product_image(product, attrs \\ %{}) do
+    product
+    |> Ecto.build_assoc(:product_images)
     |> ProductImage.changeset(attrs)
     |> Repo.insert()
   end

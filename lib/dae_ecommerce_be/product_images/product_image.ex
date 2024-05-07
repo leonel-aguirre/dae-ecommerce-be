@@ -15,8 +15,6 @@ defmodule DaeEcommerceBe.ProductImages.ProductImage do
 
   @doc false
   def changeset(product_image, attrs) do
-    # IO.inspect(product_image)
-
     product_image
     |> cast(attrs, [:data])
     |> validate_required([:data])

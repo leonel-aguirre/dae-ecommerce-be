@@ -45,6 +45,16 @@ defmodule DaeEcommerceBe.Products do
   """
   def get_product!(id), do: Repo.get!(Product, id)
 
+  def get_product_with_images(id) do
+    result =
+      Product
+      |> where(id: ^id)
+      |> preload([:product_images])
+      |> Repo.one()
+
+    result
+  end
+
   @doc """
   Creates a product.
 
@@ -59,7 +69,7 @@ defmodule DaeEcommerceBe.Products do
   """
   def create_product(user, attrs \\ %{}) do
     user
-    |> Ecto.build_assoc(:product)
+    |> Ecto.build_assoc(:products)
     |> Product.changeset(attrs)
     |> Repo.insert()
   end

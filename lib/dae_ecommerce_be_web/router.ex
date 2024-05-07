@@ -45,10 +45,11 @@ defmodule DaeEcommerceBeWeb.Router do
     post "/products", ProductController, :create
     get "/products", ProductController, :index
     get "/user/products", ProductController, :index_by_user
-    get "/products/:id", ProductController, :show
+    get "/products/:id", ProductController, :show_full_product
     put "/products/:id", ProductController, :update
     delete "/products/:id", ProductController, :delete
 
-    post "/test", ProductImageController, :test
+    post "/products/upload_image/:product_id", ProductImageController, :upload
+    get "/products/image/:image_id", ProductImageController, :show
   end
 end
