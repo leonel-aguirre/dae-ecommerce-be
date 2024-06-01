@@ -21,6 +21,21 @@ defmodule DaeEcommerceBeWeb.ProductController do
     render(conn, :index, products: products)
   end
 
+  def featured(conn, _params) do
+    product = Products.get_featured_product()
+
+    render(conn, :show_with_images, product: product)
+  end
+
+  def search(conn, %{"term" => term, "tag" => tag}) do
+    IO.inspect(term)
+    IO.inspect(tag)
+
+    products = Products.list_matching_products(term, tag)
+
+    render(conn, :index, products: products)
+  end
+
   def create(conn, %{"product" => product_params}) do
     user = conn.assigns.account.user
 
@@ -43,19 +58,6 @@ defmodule DaeEcommerceBeWeb.ProductController do
     render(conn, :show_with_images, product: product)
   end
 
-  @spec update(
-          atom()
-          | %{
-              :assigns =>
-                atom()
-                | %{
-                    :account => atom() | %{:user => atom() | map(), optional(any()) => any()},
-                    optional(any()) => any()
-                  },
-              optional(any()) => any()
-            },
-          map()
-        ) :: any()
   def update(conn, %{"id" => id, "product" => product_params}) do
     user_id = conn.assigns.account.user.id
     product = Products.get_product!(id)

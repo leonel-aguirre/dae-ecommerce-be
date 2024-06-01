@@ -31,6 +31,12 @@ defmodule DaeEcommerceBeWeb.Router do
     get "/", DefaultController, :index
     post "/accounts/create", AccountController, :create
     post "/accounts/sign_in", AccountController, :sign_in
+
+    get "/featured/product", ProductController, :featured
+    get "/product_categories", TagController, :index
+    get "/products/image/:image_id", ProductImageController, :show
+    get "/products", ProductController, :index
+    post "/search", ProductController, :search
   end
 
   # Authentication required.
@@ -43,15 +49,11 @@ defmodule DaeEcommerceBeWeb.Router do
     put "/users/update", UserController, :update
 
     post "/products", ProductController, :create
-    get "/products", ProductController, :index
     get "/user/products", ProductController, :index_by_user
     get "/products/:id", ProductController, :show_product_with_images
     put "/products/:id", ProductController, :update
     delete "/products/:id", ProductController, :delete
 
     post "/products/upload_image/:product_id", ProductImageController, :upload
-    get "/products/image/:image_id", ProductImageController, :show
-
-    get "/product_tags", TagController, :index
   end
 end

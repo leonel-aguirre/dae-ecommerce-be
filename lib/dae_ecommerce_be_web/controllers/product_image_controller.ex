@@ -14,6 +14,8 @@ defmodule DaeEcommerceBeWeb.ProductImageController do
     if user_id === product.user_id do
       binaryFile = File.read!(data.path)
 
+      ProductImages.delete_product_images(product_id)
+
       with {:ok, %ProductImage{} = _product_image} <-
              ProductImages.create_product_image(product, %{data: binaryFile}) do
         conn

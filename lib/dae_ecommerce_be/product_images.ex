@@ -56,6 +56,12 @@ defmodule DaeEcommerceBe.ProductImages do
     |> Repo.insert()
   end
 
+  def delete_product_images(product_id) do
+    ProductImage
+    |> where(product_id: ^product_id)
+    |> Repo.delete_all()
+  end
+
   @doc """
   Updates a product_image.
 
