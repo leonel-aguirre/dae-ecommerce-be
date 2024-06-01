@@ -33,7 +33,7 @@ defmodule DaeEcommerceBe.Products do
 
   def get_featured_product() do
     Product
-    |> where(id: ^"c09e9617-28f5-4454-9eba-b5b7bd6c5bd7")
+    |> where(id: ^"f77a75a1-66ac-45b4-9bae-7c17022d330e")
     |> preload([:product_images])
     |> Repo.one()
   end
