@@ -16,7 +16,10 @@ defmodule DaeEcommerceBe.Products.Product do
     belongs_to :user, DaeEcommerceBe.Users.User
 
     # Establishes a relationship between Product and ProductImage.
-    has_many :product_images, DaeEcommerceBe.ProductImages.ProductImage
+    has_many :product_images, DaeEcommerceBe.ProductImages.ProductImage, on_delete: :delete_all
+
+    # Establishes a relationship between Product and CartItem.
+    has_many :cart_items, DaeEcommerceBe.CartItems.CartItem, on_delete: :delete_all
 
     timestamps(type: :utc_datetime)
   end

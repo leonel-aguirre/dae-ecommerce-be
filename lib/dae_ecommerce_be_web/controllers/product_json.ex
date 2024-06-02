@@ -49,7 +49,7 @@ defmodule DaeEcommerceBeWeb.ProductJSON do
     }
   end
 
-  defp data(%Product{} = product) do
+  def data(%Product{} = product) do
     %{
       id: product.id,
       title: product.title,

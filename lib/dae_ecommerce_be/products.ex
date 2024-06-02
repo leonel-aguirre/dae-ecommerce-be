@@ -31,6 +31,29 @@ defmodule DaeEcommerceBe.Products do
     |> Repo.all()
   end
 
+  def get_featured_product() do
+    Product
+    |> where(id: ^"f77a75a1-66ac-45b4-9bae-7c17022d330e")
+    |> preload([:product_images])
+    |> Repo.one()
+  end
+
+  def list_matching_products(term, tag \\ nil) do
+    Product
+    |> where(is_disabled: false)
+    |> maybe_filter_by_tag(tag)
+    |> where([p], ilike(p.title, ^"%#{term}%") or ilike(p.description, ^"%#{term}%"))
+    |> preload([:product_images])
+    |> Repo.all()
+  end
+
+  defp maybe_filter_by_tag(query, nil), do: query
+
+  defp maybe_filter_by_tag(query, tag) do
+    query
+    |> where([p], fragment("? @> ?", p.tags, ^[tag]))
+  end
+
   @doc """
   Gets a single product.
 
