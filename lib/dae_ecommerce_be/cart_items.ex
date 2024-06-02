@@ -49,10 +49,27 @@ defmodule DaeEcommerceBe.CartItems do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_cart_item(attrs \\ %{}) do
-    %CartItem{}
+  def create_cart_item(user, product, attrs \\ %{}) do
+    user
+    |> Ecto.build_assoc(:cart_items)
     |> CartItem.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:product, product)
     |> Repo.insert()
+  end
+
+  def list_cart_items_by_user_id(user_id) do
+    CartItem
+    |> where(user_id: ^user_id)
+    |> preload([:product, product: [:product_images]])
+    |> Repo.all()
+  end
+
+  def get_amount(user_id) do
+    Repo.one(
+      from cart_item in CartItem,
+        where: cart_item.user_id == ^user_id,
+        select: count(cart_item.id)
+    )
   end
 
   @doc """

@@ -5,9 +5,11 @@ defmodule DaeEcommerceBe.CartItems.CartItem do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "cart_items" do
+    # Establishes a relationship between CartItem and User.
+    belongs_to :user, DaeEcommerceBe.Users.User
 
-    field :product_id, :binary_id
-    field :user_id, :binary_id
+    # Establishes a relationship between Product and User.
+    belongs_to :product, DaeEcommerceBe.Products.Product
 
     timestamps(type: :utc_datetime)
   end

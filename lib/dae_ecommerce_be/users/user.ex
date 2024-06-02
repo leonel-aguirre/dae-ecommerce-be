@@ -13,6 +13,9 @@ defmodule DaeEcommerceBe.Users.User do
     # Establishes a relationship between Product and User.
     has_many :products, DaeEcommerceBe.Products.Product
 
+    # Establishes a relationship between User and CartItem.
+    has_many :cart_items, DaeEcommerceBe.CartItems.CartItem, on_delete: :delete_all
+
     timestamps(type: :utc_datetime)
   end
 

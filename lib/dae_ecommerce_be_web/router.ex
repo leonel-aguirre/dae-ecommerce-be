@@ -55,5 +55,10 @@ defmodule DaeEcommerceBeWeb.Router do
     delete "/products/:id", ProductController, :delete
 
     post "/products/upload_image/:product_id", ProductImageController, :upload
+
+    post "/cart/add_item", CartItemController, :add_item
+    get "/cart/items", CartItemController, :all_items
+    get "/cart/items_amount", CartItemController, :item_amount
+    delete "/cart/item/:cart_item_id", CartItemController, :delete
   end
 end
