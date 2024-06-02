@@ -5,9 +5,11 @@ defmodule DaeEcommerceBe.PurchasedItems.PurchasedItem do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "purchased_items" do
+    # Establishes a relationship between PurchasedItem and User.
+    belongs_to :user, DaeEcommerceBe.Users.User
 
-    field :product_id, :binary_id
-    field :user_id, :binary_id
+    # Establishes a relationship between PurchasedItem and User.
+    belongs_to :product, DaeEcommerceBe.Products.Product
 
     timestamps(type: :utc_datetime)
   end

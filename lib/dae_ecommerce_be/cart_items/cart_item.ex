@@ -8,7 +8,7 @@ defmodule DaeEcommerceBe.CartItems.CartItem do
     # Establishes a relationship between CartItem and User.
     belongs_to :user, DaeEcommerceBe.Users.User
 
-    # Establishes a relationship between Product and User.
+    # Establishes a relationship between CartItem and User.
     belongs_to :product, DaeEcommerceBe.Products.Product
 
     timestamps(type: :utc_datetime)

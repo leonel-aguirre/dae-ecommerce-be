@@ -21,6 +21,22 @@ defmodule DaeEcommerceBe.PurchasedItems do
     Repo.all(PurchasedItem)
   end
 
+  def list_user_purchased_items(user_id) do
+    PurchasedItem
+    |> where(user_id: ^user_id)
+    |> preload([:product, product: [:product_images]])
+    |> order_by(desc: :inserted_at)
+    |> Repo.all()
+  end
+
+  def add_purchased_items(user, product, attrs \\ %{}) do
+    user
+    |> Ecto.build_assoc(:purchased_items)
+    |> PurchasedItem.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:product, product)
+    |> Repo.insert()
+  end
+
   @doc """
   Gets a single purchased_item.
 
