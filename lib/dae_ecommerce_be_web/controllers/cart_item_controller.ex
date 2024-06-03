@@ -47,28 +47,6 @@ defmodule DaeEcommerceBeWeb.CartItemController do
     render(conn, :index, cart_items: cart_items)
   end
 
-  def create(conn, %{"cart_item" => cart_item_params}) do
-    with {:ok, %CartItem{} = cart_item} <- CartItems.create_cart_item(cart_item_params) do
-      conn
-      |> put_status(:created)
-      |> put_resp_header("location", ~p"/api/cart_items/#{cart_item}")
-      |> render(:show, cart_item: cart_item)
-    end
-  end
-
-  def show(conn, %{"id" => id}) do
-    cart_item = CartItems.get_cart_item!(id)
-    render(conn, :show, cart_item: cart_item)
-  end
-
-  def update(conn, %{"id" => id, "cart_item" => cart_item_params}) do
-    cart_item = CartItems.get_cart_item!(id)
-
-    with {:ok, %CartItem{} = cart_item} <- CartItems.update_cart_item(cart_item, cart_item_params) do
-      render(conn, :show, cart_item: cart_item)
-    end
-  end
-
   def delete(conn, %{"cart_item_id" => cart_item_id}) do
     IO.inspect(cart_item_id)
 

@@ -37,6 +37,8 @@ defmodule DaeEcommerceBeWeb.Router do
     get "/products/image/:image_id", ProductImageController, :show
     get "/products", ProductController, :index
     post "/search", ProductController, :search
+
+    get "/product/total_rating/:product_id", ProductRatingController, :product_total_rating
   end
 
   # Authentication required.
@@ -60,5 +62,12 @@ defmodule DaeEcommerceBeWeb.Router do
     get "/cart/items", CartItemController, :all_items
     get "/cart/items_amount", CartItemController, :item_amount
     delete "/cart/item/:cart_item_id", CartItemController, :delete
+
+    post "/cart/purchase-items", PurchasedItemController, :purchase_items
+    get "/cart/purchased-items", PurchasedItemController, :get_user_purchased_items
+
+    post "/product/rating", ProductRatingController, :create
+    get "/product/user_rating/:product_id", ProductRatingController, :user_rated_product
+    get "/product/user_ratings", ProductRatingController, :user_rated_products
   end
 end
