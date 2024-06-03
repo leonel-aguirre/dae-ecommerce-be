@@ -18,7 +18,8 @@ defmodule DaeEcommerceBeWeb.ProductRatingJSON do
   defp data(%ProductRating{} = product_rating) do
     %{
       id: product_rating.id,
-      rating: product_rating.rating
+      rating: product_rating.rating,
+      product_id: product_rating.product_id
     }
   end
 end

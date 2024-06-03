@@ -63,5 +63,9 @@ defmodule DaeEcommerceBeWeb.Router do
 
     post "/cart/purchase-items", PurchasedItemController, :purchase_items
     get "/cart/purchased-items", PurchasedItemController, :get_user_purchased_items
+
+    post "/product/rating", ProductRatingController, :create
+    get "/product/user_rating/:product_id", ProductRatingController, :user_rated_product
+    get "/product/user_ratings", ProductRatingController, :user_rated_products
   end
 end

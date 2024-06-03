@@ -55,6 +55,38 @@ defmodule DaeEcommerceBe.ProductRatings do
     |> Repo.insert()
   end
 
+  def add_product_rating(user, product, attrs \\ %{}) do
+    user
+    |> Ecto.build_assoc(:product_ratings)
+    |> ProductRating.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:product, product)
+    |> Repo.insert()
+  end
+
+  def get_user_rated_product(user_id, product_id) do
+    ProductRating
+    |> where(
+      [product_rating],
+      product_rating.user_id == ^user_id and product_rating.product_id == ^product_id
+    )
+    |> Repo.one()
+  end
+
+  def has_user_rated_product(user_id, product_id) do
+    ProductRating
+    |> where(
+      [product_rating],
+      product_rating.user_id == ^user_id and product_rating.product_id == ^product_id
+    )
+    |> Repo.exists?()
+  end
+
+  def get_user_rated_product(user_id) do
+    ProductRating
+    |> where(user_id: ^user_id)
+    |> Repo.all()
+  end
+
   @doc """
   Updates a product_rating.
 

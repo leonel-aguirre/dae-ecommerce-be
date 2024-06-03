@@ -37,6 +37,15 @@ defmodule DaeEcommerceBe.PurchasedItems do
     |> Repo.insert()
   end
 
+  def has_user_purchased_product(user_id, product_id) do
+    PurchasedItem
+    |> where(
+      [purchased_item],
+      purchased_item.user_id == ^user_id and purchased_item.product_id == ^product_id
+    )
+    |> Repo.exists?()
+  end
+
   @doc """
   Gets a single purchased_item.
 

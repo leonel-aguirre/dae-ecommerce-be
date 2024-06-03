@@ -6,8 +6,12 @@ defmodule DaeEcommerceBe.ProductRatings.ProductRating do
   @foreign_key_type :binary_id
   schema "product_ratings" do
     field :rating, :float
-    field :product_id, :binary_id
-    field :user_id, :binary_id
+
+    # Establishes a relationship between ProductRating and User.
+    belongs_to :user, DaeEcommerceBe.Users.User
+
+    # Establishes a relationship between ProductRating and User.
+    belongs_to :product, DaeEcommerceBe.Products.Product
 
     timestamps(type: :utc_datetime)
   end

@@ -19,6 +19,9 @@ defmodule DaeEcommerceBe.Users.User do
     # Establishes a relationship between User and PurchasedItem.
     has_many :purchased_items, DaeEcommerceBe.PurchasedItems.PurchasedItem, on_delete: :delete_all
 
+    # Establishes a relationship between User and ProductRatings.
+    has_many :product_ratings, DaeEcommerceBe.ProductRatings.ProductRating, on_delete: :delete_all
+
     timestamps(type: :utc_datetime)
   end
 

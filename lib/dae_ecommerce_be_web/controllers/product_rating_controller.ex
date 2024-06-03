@@ -1,6 +1,8 @@
 defmodule DaeEcommerceBeWeb.ProductRatingController do
   use DaeEcommerceBeWeb, :controller
 
+  alias DaeEcommerceBe.PurchasedItems
+  alias DaeEcommerceBe.Products
   alias DaeEcommerceBe.ProductRatings
   alias DaeEcommerceBe.ProductRatings.ProductRating
 
@@ -11,13 +13,49 @@ defmodule DaeEcommerceBeWeb.ProductRatingController do
     render(conn, :index, product_ratings: product_ratings)
   end
 
-  def create(conn, %{"product_rating" => product_rating_params}) do
-    with {:ok, %ProductRating{} = product_rating} <- ProductRatings.create_product_rating(product_rating_params) do
+  def create(conn, %{"product_id" => product_id, "rating" => rating}) do
+    user_id = conn.assigns.account.user.id
+
+    has_user_purchased_product = PurchasedItems.has_user_purchased_product(user_id, product_id)
+
+    if has_user_purchased_product do
+      product = Products.get_product!(product_id)
+
+      with {:ok, %ProductRating{} = product_rating} <-
+             ProductRatings.add_product_rating(conn.assigns.account.user, product, %{
+               user_id: user_id,
+               product_id: product_id,
+               rating: rating
+             }) do
+        conn
+        |> put_status(:created)
+        |> render(:show, product_rating: product_rating)
+      end
+    else
       conn
-      |> put_status(:created)
-      |> put_resp_header("location", ~p"/api/product_ratings/#{product_rating}")
-      |> render(:show, product_rating: product_rating)
+      |> put_status(:unauthorized)
+      |> json(%{success: false, message: "Unable to rate a non purchased product."})
     end
+  end
+
+  def user_rated_product(conn, %{"product_id" => product_id}) do
+    user_id = conn.assigns.account.user.id
+
+    user_rated_product = ProductRatings.get_user_rated_product(user_id, product_id)
+
+    conn
+    |> put_status(200)
+    |> render(:show, product_rating: user_rated_product)
+  end
+
+  def user_rated_products(conn, _params) do
+    user_id = conn.assigns.account.user.id
+
+    product_ratings = ProductRatings.get_user_rated_product(user_id)
+
+    conn
+    |> put_status(200)
+    |> render(:index, product_ratings: product_ratings)
   end
 
   def show(conn, %{"id" => id}) do
@@ -28,7 +66,8 @@ defmodule DaeEcommerceBeWeb.ProductRatingController do
   def update(conn, %{"id" => id, "product_rating" => product_rating_params}) do
     product_rating = ProductRatings.get_product_rating!(id)
 
-    with {:ok, %ProductRating{} = product_rating} <- ProductRatings.update_product_rating(product_rating, product_rating_params) do
+    with {:ok, %ProductRating{} = product_rating} <-
+           ProductRatings.update_product_rating(product_rating, product_rating_params) do
       render(conn, :show, product_rating: product_rating)
     end
   end
