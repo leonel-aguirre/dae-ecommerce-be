@@ -37,6 +37,8 @@ defmodule DaeEcommerceBeWeb.Router do
     get "/products/image/:image_id", ProductImageController, :show
     get "/products", ProductController, :index
     post "/search", ProductController, :search
+
+    get "/product/total_rating/:product_id", ProductRatingController, :product_total_rating
   end
 
   # Authentication required.

@@ -21,6 +21,15 @@ defmodule DaeEcommerceBe.ProductRatings do
     Repo.all(ProductRating)
   end
 
+  def list_products_with_ratings do
+    query =
+      from product_rating in ProductRating,
+        distinct: product_rating.product_id,
+        select: product_rating.product_id
+
+    Repo.all(query)
+  end
+
   @doc """
   Gets a single product_rating.
 
@@ -85,6 +94,22 @@ defmodule DaeEcommerceBe.ProductRatings do
     ProductRating
     |> where(user_id: ^user_id)
     |> Repo.all()
+  end
+
+  def get_product_ratings_amount(product_id) do
+    Repo.one(
+      from product_rating in ProductRating,
+        where: product_rating.product_id == ^product_id,
+        select: count(product_rating.id)
+    )
+  end
+
+  def get_product_ratings_sum(product_id) do
+    Repo.one(
+      from product_rating in ProductRating,
+        where: product_rating.product_id == ^product_id,
+        select: sum(product_rating.rating)
+    )
   end
 
   @doc """

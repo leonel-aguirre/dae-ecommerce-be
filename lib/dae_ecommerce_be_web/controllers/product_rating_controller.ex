@@ -58,6 +58,32 @@ defmodule DaeEcommerceBeWeb.ProductRatingController do
     |> render(:index, product_ratings: product_ratings)
   end
 
+  def product_total_rating(conn, %{"product_id" => product_id}) do
+    product_ratings_amount = ProductRatings.get_product_ratings_amount(product_id)
+
+    if product_ratings_amount > 0 do
+      product_ratings_sum = ProductRatings.get_product_ratings_sum(product_id)
+
+      conn
+      |> put_status(200)
+      |> json(%{
+        data: %{
+          total_rating: product_ratings_sum / product_ratings_amount,
+          has_total_rating: true
+        }
+      })
+    end
+
+    conn
+    |> put_status(200)
+    |> json(%{
+      data: %{
+        total_rating: 0,
+        has_total_rating: false
+      }
+    })
+  end
+
   def show(conn, %{"id" => id}) do
     product_rating = ProductRatings.get_product_rating!(id)
     render(conn, :show, product_rating: product_rating)
